@@ -1,0 +1,1654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Midnight Murder at Blackwood Manor</title>
+
+  <!-- Google Fonts: Cinzel for headings, Crimson Text for body -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================================
+       CSS RESET & ROOT VARIABLES
+       ============================================================ */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg-darkest:   #090c14;
+      --bg-dark:      #111827;
+      --bg-mid:       #1e2a3a;
+      --bg-card:      #16202e;
+      --border:       #2c3e50;
+      --gold:         #c9a84c;
+      --gold-light:   #e8c97a;
+      --red:          #9b1c1c;
+      --red-light:    #dc2626;
+      --text-main:    #d1c9b8;
+      --text-dim:     #7d8a96;
+      --text-bright:  #f5efe0;
+      --green:        #166534;
+      --green-light:  #22c55e;
+      --font-head:    'Cinzel', serif;
+      --font-body:    'Crimson Text', serif;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg-darkest);
+      color: var(--text-main);
+      font-size: 1.05rem;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ============================================================
+       UTILITY
+       ============================================================ */
+    .hidden { display: none !important; }
+
+    button {
+      cursor: pointer;
+      font-family: var(--font-head);
+      border: none;
+      outline: none;
+    }
+
+    /* ============================================================
+       SCREEN WRAPPER
+       ============================================================ */
+    .screen {
+      min-height: 100vh;
+      width: 100%;
+    }
+
+    /* ============================================================
+       TITLE SCREEN
+       ============================================================ */
+    #titleScreen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      background:
+        radial-gradient(ellipse at 50% 0%, #1a0a00 0%, transparent 60%),
+        radial-gradient(ellipse at 50% 100%, #0a0010 0%, transparent 60%),
+        var(--bg-darkest);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Animated candle-flicker background particles */
+    #titleScreen::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(1px 1px at 20% 30%, rgba(201,168,76,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 80% 20%, rgba(201,168,76,0.2) 0%, transparent 100%),
+        radial-gradient(1px 1px at 50% 70%, rgba(201,168,76,0.25) 0%, transparent 100%),
+        radial-gradient(2px 2px at 10% 60%, rgba(201,168,76,0.15) 0%, transparent 100%),
+        radial-gradient(1px 1px at 90% 80%, rgba(201,168,76,0.2) 0%, transparent 100%);
+      animation: flicker 4s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+
+    @keyframes flicker {
+      0%   { opacity: 0.6; transform: scale(1); }
+      50%  { opacity: 1;   transform: scale(1.01); }
+      100% { opacity: 0.7; transform: scale(0.99); }
+    }
+
+    .title-ornament {
+      color: var(--gold);
+      font-size: 1.5rem;
+      letter-spacing: 0.4em;
+      margin-bottom: 0.5rem;
+      animation: fadeIn 1s ease;
+    }
+
+    #titleScreen h1 {
+      font-family: var(--font-head);
+      font-size: clamp(1.8rem, 5vw, 3.2rem);
+      font-weight: 700;
+      color: var(--gold-light);
+      text-shadow: 0 0 30px rgba(201,168,76,0.5), 0 2px 4px rgba(0,0,0,0.8);
+      line-height: 1.2;
+      max-width: 700px;
+      margin-bottom: 1rem;
+      animation: fadeIn 1.2s ease;
+    }
+
+    .title-subtitle {
+      font-style: italic;
+      color: var(--text-dim);
+      font-size: 1.1rem;
+      margin-bottom: 2.5rem;
+      animation: fadeIn 1.5s ease;
+    }
+
+    /* Decorative blood-drop divider */
+    .blood-divider {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin: 1.5rem auto;
+      width: 300px;
+    }
+
+    .blood-divider::before,
+    .blood-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--red-light), transparent);
+    }
+
+    .blood-drop {
+      color: var(--red-light);
+      font-size: 1.2rem;
+    }
+
+    .title-setting {
+      font-size: 0.95rem;
+      color: var(--text-dim);
+      max-width: 500px;
+      margin-bottom: 2rem;
+      animation: fadeIn 1.8s ease;
+    }
+
+    #btnStart {
+      background: linear-gradient(135deg, #8b1a1a, #c0392b);
+      color: var(--text-bright);
+      font-size: 1.1rem;
+      letter-spacing: 0.15em;
+      padding: 0.9rem 2.5rem;
+      border-radius: 4px;
+      border: 1px solid rgba(201,168,76,0.4);
+      box-shadow: 0 4px 20px rgba(155,28,28,0.5);
+      transition: all 0.3s ease;
+      animation: fadeIn 2s ease, pulse 3s ease infinite;
+    }
+
+    #btnStart:hover {
+      background: linear-gradient(135deg, #a52020, #e74c3c);
+      box-shadow: 0 6px 30px rgba(155,28,28,0.7);
+      transform: translateY(-2px);
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 4px 20px rgba(155,28,28,0.5); }
+      50%       { box-shadow: 0 4px 30px rgba(155,28,28,0.8); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ============================================================
+       GAME SCREEN LAYOUT
+       ============================================================ */
+    #gameScreen {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background: var(--bg-dark);
+    }
+
+    /* Top navigation bar */
+    .game-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6rem 1.5rem;
+      background: var(--bg-darkest);
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .game-header h2 {
+      font-family: var(--font-head);
+      font-size: 1rem;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+    }
+
+    .header-tabs {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .tab-btn {
+      background: transparent;
+      color: var(--text-dim);
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      padding: 0.4rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      transition: all 0.2s;
+    }
+
+    .tab-btn:hover,
+    .tab-btn.active {
+      background: var(--bg-mid);
+      color: var(--gold);
+      border-color: var(--gold);
+    }
+
+    #btnRestartGame {
+      background: transparent;
+      color: var(--text-dim);
+      font-size: 0.8rem;
+      padding: 0.4rem 0.9rem;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      transition: all 0.2s;
+      letter-spacing: 0.05em;
+    }
+
+    #btnRestartGame:hover {
+      color: var(--red-light);
+      border-color: var(--red-light);
+    }
+
+    /* Main content area */
+    .game-content {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+
+    /* Tab panels */
+    .panel {
+      display: none;
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem;
+    }
+
+    .panel.active {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    /* ============================================================
+       CRIME SCENE PANEL
+       ============================================================ */
+    .scene-intro {
+      font-style: italic;
+      color: var(--text-dim);
+      font-size: 0.95rem;
+      border-left: 3px solid var(--red);
+      padding-left: 1rem;
+    }
+
+    /* The room illustration */
+    .room {
+      position: relative;
+      background: linear-gradient(180deg, #1a1008 0%, #0d1520 100%);
+      border: 2px solid var(--border);
+      border-radius: 6px;
+      min-height: 440px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    /* Room structural elements (CSS-only) */
+    .room-floor {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 40%;
+      background: linear-gradient(0deg, #1a1208 0%, #1e1a10 60%, transparent 100%);
+    }
+
+    .room-rug {
+      position: absolute;
+      bottom: 10%;
+      left: 15%;
+      width: 70%;
+      height: 30%;
+      background: radial-gradient(ellipse, #3d1a1a 0%, #2a1010 60%, transparent 100%);
+      border-radius: 50%;
+      opacity: 0.6;
+    }
+
+    /* Window on the wall */
+    .room-window {
+      position: absolute;
+      top: 8%;
+      right: 8%;
+      width: 120px;
+      height: 140px;
+      border: 3px solid #4a3a20;
+      background: linear-gradient(135deg, #0a0a1a 0%, #0d1020 50%, #060610 100%);
+      box-shadow: inset 0 0 20px rgba(0,0,100,0.3);
+    }
+
+    .room-window::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 0; right: 0;
+      height: 2px;
+      background: #4a3a20;
+    }
+
+    .room-window::after {
+      content: '';
+      position: absolute;
+      left: 50%; top: 0; bottom: 0;
+      width: 2px;
+      background: #4a3a20;
+    }
+
+    .window-moon {
+      position: absolute;
+      top: 6px; right: 6px;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #f0e6b0 0%, #d4c87a 60%, transparent 100%);
+      box-shadow: 0 0 15px rgba(240,230,176,0.5);
+    }
+
+    /* Fireplace */
+    .room-fireplace {
+      position: absolute;
+      bottom: 38%;
+      left: 4%;
+      width: 90px;
+      height: 80px;
+      background: #1a0f06;
+      border: 3px solid #4a3a20;
+      border-bottom: none;
+    }
+
+    .fire {
+      position: absolute;
+      bottom: 4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 40px;
+      background: radial-gradient(ellipse, #ff6600 0%, #ff3300 40%, transparent 70%);
+      border-radius: 50%;
+      animation: burnFire 1.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes burnFire {
+      0%   { transform: translateX(-50%) scaleY(1); opacity: 0.9; }
+      100% { transform: translateX(-50%) scaleY(1.2) scaleX(0.9); opacity: 1; }
+    }
+
+    /* Desk / table */
+    .room-desk {
+      position: absolute;
+      bottom: 35%;
+      right: 5%;
+      width: 160px;
+      height: 20px;
+      background: linear-gradient(0deg, #3d2810 0%, #5a3c1a 100%);
+      border-radius: 2px;
+    }
+
+    .room-desk::before {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 10%;
+      width: 8px;
+      height: 60px;
+      background: #3d2810;
+    }
+
+    .room-desk::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      right: 10%;
+      width: 8px;
+      height: 60px;
+      background: #3d2810;
+    }
+
+    /* Bookshelf */
+    .room-shelf {
+      position: absolute;
+      top: 12%;
+      left: 5%;
+      width: 100px;
+      height: 120px;
+      background: #2a1a08;
+      border: 2px solid #4a3a20;
+    }
+
+    .shelf-books {
+      position: absolute;
+      bottom: 5px; left: 4px; right: 4px;
+      height: 35px;
+      background: repeating-linear-gradient(
+        90deg,
+        #8b1a1a 0px, #8b1a1a 8px,
+        #1a3a6e 8px, #1a3a6e 14px,
+        #4a6e1a 14px, #4a6e1a 20px,
+        #6e4a1a 20px, #6e4a1a 28px,
+        #3a1a6e 28px, #3a1a6e 34px
+      );
+    }
+
+    /* Body silhouette on the floor */
+    .victim-body {
+      position: absolute;
+      bottom: 16%;
+      left: 28%;
+      width: 120px;
+      height: 60px;
+    }
+
+    .victim-body::before {
+      /* torso */
+      content: '';
+      position: absolute;
+      bottom: 0; left: 20%;
+      width: 60%;
+      height: 50px;
+      background: #0d0a08;
+      border-radius: 40% 40% 30% 30% / 60% 60% 40% 40%;
+      box-shadow: 0 0 12px rgba(155,28,28,0.5);
+    }
+
+    .victim-body::after {
+      /* head */
+      content: '';
+      position: absolute;
+      top: 0; left: 38%;
+      width: 28px;
+      height: 28px;
+      background: #120d0a;
+      border-radius: 50%;
+      box-shadow: 0 0 8px rgba(155,28,28,0.4);
+    }
+
+    /* Blood pool */
+    .blood-pool {
+      position: absolute;
+      bottom: 12%;
+      left: 25%;
+      width: 80px;
+      height: 30px;
+      background: radial-gradient(ellipse, #7a0000 0%, #4d0000 60%, transparent 100%);
+      border-radius: 50%;
+      opacity: 0.75;
+    }
+
+    /* ============================================================
+       EVIDENCE ITEMS (clickable hotspots)
+       ============================================================ */
+    .evidence-item {
+      position: absolute;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .evidence-item:hover .ev-icon {
+      transform: scale(1.15);
+      filter: drop-shadow(0 0 8px var(--gold));
+    }
+
+    .evidence-item.collected .ev-icon {
+      opacity: 0.5;
+      filter: grayscale(60%);
+    }
+
+    .evidence-item.collected::after {
+      content: '✓';
+      position: absolute;
+      top: -8px; right: -8px;
+      width: 18px; height: 18px;
+      background: var(--green);
+      color: #fff;
+      border-radius: 50%;
+      font-size: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: sans-serif;
+      font-weight: bold;
+      z-index: 2;
+    }
+
+    .ev-icon {
+      font-size: 1.8rem;
+      display: block;
+      transition: transform 0.2s, filter 0.2s;
+      filter: drop-shadow(0 0 4px rgba(255,255,255,0.2));
+    }
+
+    .ev-label {
+      display: block;
+      font-family: var(--font-body);
+      font-size: 0.65rem;
+      color: var(--gold);
+      text-align: center;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+      margin-top: 2px;
+      white-space: nowrap;
+    }
+
+    /* Individual positions */
+    #ev-knife    { bottom: 20%; left: 32%; }
+    #ev-cloth    { top: 38%;   left: 8%; }
+    #ev-glass    { bottom: 44%; right: 10%; }
+    #ev-footprint{ bottom: 10%; right: 28%; }
+    #ev-note     { bottom: 42%; right: 12%; }
+    #ev-clock    { top: 15%;   left: 28%; }
+
+    /* Clue tooltip */
+    .clue-popup {
+      position: fixed;
+      z-index: 1000;
+      background: var(--bg-card);
+      border: 1px solid var(--gold);
+      border-radius: 6px;
+      padding: 1rem 1.2rem;
+      max-width: 280px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.7);
+      animation: popIn 0.25s ease;
+      pointer-events: none;
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.85) translateY(8px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .clue-popup h4 {
+      font-family: var(--font-head);
+      color: var(--gold);
+      font-size: 0.9rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .clue-popup p {
+      font-size: 0.9rem;
+      color: var(--text-main);
+    }
+
+    /* Evidence progress bar */
+    .evidence-progress {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.6rem 1rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+
+    .progress-label {
+      font-family: var(--font-head);
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      white-space: nowrap;
+    }
+
+    .progress-bar-outer {
+      flex: 1;
+      height: 8px;
+      background: var(--bg-mid);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-bar-inner {
+      height: 100%;
+      background: linear-gradient(90deg, var(--red), var(--gold));
+      border-radius: 4px;
+      transition: width 0.5s ease;
+      width: 0%;
+    }
+
+    .progress-count {
+      font-family: var(--font-head);
+      font-size: 0.85rem;
+      color: var(--gold);
+      white-space: nowrap;
+    }
+
+    /* ============================================================
+       EVIDENCE BOARD PANEL
+       ============================================================ */
+    .board-title {
+      font-family: var(--font-head);
+      font-size: 1.2rem;
+      color: var(--gold);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.5rem;
+    }
+
+    .board-empty {
+      font-style: italic;
+      color: var(--text-dim);
+      font-size: 0.95rem;
+    }
+
+    .evidence-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .evidence-card {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--red);
+      border-radius: 4px;
+      padding: 0.8rem 1rem;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-12px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    .evidence-card-icon {
+      font-size: 1.6rem;
+      flex-shrink: 0;
+    }
+
+    .evidence-card-info h4 {
+      font-family: var(--font-head);
+      font-size: 0.9rem;
+      color: var(--gold-light);
+      margin-bottom: 0.2rem;
+    }
+
+    .evidence-card-info p {
+      font-size: 0.88rem;
+      color: var(--text-dim);
+    }
+
+    /* ============================================================
+       SUSPECTS PANEL
+       ============================================================ */
+    .suspects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .suspect-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+
+    .suspect-card:hover {
+      border-color: var(--gold);
+    }
+
+    .suspect-avatar {
+      height: 100px;
+      background: var(--bg-mid);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .suspect-initials {
+      font-family: var(--font-head);
+      font-size: 2rem;
+      color: var(--gold);
+      text-shadow: 0 0 20px rgba(201,168,76,0.5);
+    }
+
+    .suspect-avatar-bg {
+      position: absolute;
+      inset: 0;
+      opacity: 0.1;
+    }
+
+    .suspect-info {
+      padding: 1rem;
+    }
+
+    .suspect-name {
+      font-family: var(--font-head);
+      font-size: 1rem;
+      color: var(--text-bright);
+      margin-bottom: 0.6rem;
+    }
+
+    .suspect-detail {
+      font-size: 0.88rem;
+      margin-bottom: 0.3rem;
+      color: var(--text-dim);
+    }
+
+    .suspect-detail span {
+      color: var(--text-main);
+    }
+
+    .suspect-suspicious {
+      margin-top: 0.6rem;
+      padding: 0.5rem 0.7rem;
+      background: rgba(155,28,28,0.15);
+      border-left: 2px solid var(--red);
+      border-radius: 2px;
+      font-size: 0.85rem;
+      font-style: italic;
+      color: var(--text-dim);
+    }
+
+    /* ============================================================
+       ACCUSATION PANEL
+       ============================================================ */
+    .accusation-locked {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .lock-icon {
+      font-size: 3rem;
+      color: var(--text-dim);
+    }
+
+    .accusation-locked p {
+      color: var(--text-dim);
+      font-style: italic;
+      max-width: 340px;
+    }
+
+    .accusation-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      max-width: 480px;
+    }
+
+    .accusation-form h3 {
+      font-family: var(--font-head);
+      font-size: 1.1rem;
+      color: var(--gold);
+    }
+
+    .accusation-form p {
+      font-size: 0.95rem;
+      color: var(--text-dim);
+    }
+
+    .suspect-select {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .suspect-radio-label {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.8rem 1rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.95rem;
+    }
+
+    .suspect-radio-label:hover,
+    .suspect-radio-label:has(input:checked) {
+      border-color: var(--gold);
+      background: rgba(201,168,76,0.08);
+      color: var(--text-bright);
+    }
+
+    .suspect-radio-label input[type="radio"] {
+      accent-color: var(--gold);
+      width: 16px; height: 16px;
+      flex-shrink: 0;
+    }
+
+    #btnAccuse {
+      background: linear-gradient(135deg, var(--red), #7a1010);
+      color: var(--text-bright);
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      padding: 0.8rem 2rem;
+      border-radius: 4px;
+      border: 1px solid rgba(201,168,76,0.3);
+      box-shadow: 0 4px 16px rgba(155,28,28,0.4);
+      transition: all 0.3s;
+      align-self: flex-start;
+    }
+
+    #btnAccuse:hover {
+      background: linear-gradient(135deg, var(--red-light), var(--red));
+      transform: translateY(-1px);
+    }
+
+    #btnAccuse:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* ============================================================
+       RESULT SCREENS (WIN / LOSE)
+       ============================================================ */
+    #resultScreen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      min-height: 100vh;
+      background: var(--bg-darkest);
+    }
+
+    .result-box {
+      max-width: 600px;
+      width: 100%;
+      text-align: center;
+      padding: 2.5rem;
+      border-radius: 8px;
+      animation: fadeIn 0.6s ease;
+    }
+
+    .result-box.win {
+      background: var(--bg-card);
+      border: 2px solid var(--gold);
+      box-shadow: 0 0 40px rgba(201,168,76,0.2);
+    }
+
+    .result-box.lose {
+      background: var(--bg-card);
+      border: 2px solid var(--red);
+      box-shadow: 0 0 40px rgba(155,28,28,0.3);
+    }
+
+    .result-icon {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .result-box h2 {
+      font-family: var(--font-head);
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .result-box.win h2 { color: var(--gold-light); }
+    .result-box.lose h2 { color: var(--red-light); }
+
+    .result-box p {
+      color: var(--text-main);
+      margin-bottom: 0.8rem;
+      font-size: 1rem;
+    }
+
+    .story-reveal {
+      margin: 1.5rem 0;
+      padding: 1.2rem;
+      background: rgba(0,0,0,0.3);
+      border-left: 3px solid var(--gold);
+      border-radius: 4px;
+      text-align: left;
+      font-style: italic;
+      color: var(--text-dim);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    .result-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-dim);
+      font-size: 0.9rem;
+      padding: 0.6rem 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      transition: all 0.2s;
+      letter-spacing: 0.05em;
+    }
+
+    .btn-secondary:hover {
+      color: var(--gold);
+      border-color: var(--gold);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--red), #7a1010);
+      color: var(--text-bright);
+      font-size: 0.9rem;
+      padding: 0.6rem 1.5rem;
+      border-radius: 4px;
+      border: 1px solid rgba(201,168,76,0.3);
+      box-shadow: 0 4px 12px rgba(155,28,28,0.4);
+      transition: all 0.2s;
+      letter-spacing: 0.05em;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, var(--red-light), var(--red));
+      transform: translateY(-1px);
+    }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 600px) {
+      .game-header {
+        padding: 0.5rem 0.8rem;
+      }
+
+      .tab-btn {
+        padding: 0.35rem 0.6rem;
+        font-size: 0.75rem;
+      }
+
+      .panel {
+        padding: 1rem;
+      }
+
+      .room {
+        min-height: 320px;
+      }
+
+      .ev-icon {
+        font-size: 1.4rem;
+      }
+    }
+
+    /* ============================================================
+       NOTIFICATION TOAST
+       ============================================================ */
+    #toast {
+      position: fixed;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--bg-card);
+      border: 1px solid var(--gold);
+      color: var(--text-bright);
+      font-family: var(--font-head);
+      font-size: 0.88rem;
+      letter-spacing: 0.05em;
+      padding: 0.7rem 1.5rem;
+      border-radius: 4px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      pointer-events: none;
+      z-index: 9999;
+      white-space: nowrap;
+    }
+
+    #toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       TITLE SCREEN
+       ============================================================ -->
+  <section id="titleScreen" class="screen" role="main">
+    <p class="title-ornament">✦ ✦ ✦</p>
+    <h1>The Midnight Murder<br>at Blackwood Manor</h1>
+    <p class="title-subtitle">A Detective Mystery</p>
+
+    <div class="blood-divider"><span class="blood-drop">🩸</span></div>
+
+    <p class="title-setting">
+      It is half past midnight. Lord Edmund Blackwood has been found dead in his study.
+      The manor is locked from the inside. Three guests remain — and one of them is a killer.
+    </p>
+
+    <button id="btnStart">BEGIN INVESTIGATION</button>
+  </section>
+
+  <!-- ============================================================
+       GAME SCREEN
+       ============================================================ -->
+  <section id="gameScreen" class="screen hidden">
+
+    <!-- Header / Navigation Tabs -->
+    <header class="game-header">
+      <h2>⚜ Blackwood Manor — Case File</h2>
+      <nav class="header-tabs" aria-label="Game sections">
+        <button class="tab-btn active" data-tab="scene">Crime Scene</button>
+        <button class="tab-btn" data-tab="evidence">Evidence Board</button>
+        <button class="tab-btn" data-tab="suspects">Suspects</button>
+        <button class="tab-btn" data-tab="accuse">Make Accusation</button>
+      </nav>
+      <button id="btnRestartGame">↺ Restart</button>
+    </header>
+
+    <!-- Panel: Crime Scene -->
+    <main class="game-content">
+      <div id="panelScene" class="panel active" role="region" aria-label="Crime Scene">
+
+        <p class="scene-intro">
+          Examine the study carefully. Click on any item that looks suspicious to collect evidence.
+          You will need at least 4 pieces of evidence before making an accusation.
+        </p>
+
+        <!-- Evidence progress indicator -->
+        <div class="evidence-progress" role="status" aria-live="polite">
+          <span class="progress-label">EVIDENCE COLLECTED</span>
+          <div class="progress-bar-outer" aria-hidden="true">
+            <div class="progress-bar-inner" id="progressBar"></div>
+          </div>
+          <span class="progress-count" id="progressCount">0 / 6</span>
+        </div>
+
+        <!-- The Room -->
+        <div class="room" id="crimeScene" aria-label="Interactive crime scene room">
+
+          <!-- Structural décor (CSS only, not interactive) -->
+          <div class="room-floor" aria-hidden="true"></div>
+          <div class="room-rug" aria-hidden="true"></div>
+          <div class="room-window" aria-hidden="true">
+            <div class="window-moon" aria-hidden="true"></div>
+          </div>
+          <div class="room-fireplace" aria-hidden="true">
+            <div class="fire" aria-hidden="true"></div>
+          </div>
+          <div class="room-shelf" aria-hidden="true">
+            <div class="shelf-books" aria-hidden="true"></div>
+          </div>
+          <div class="room-desk" aria-hidden="true"></div>
+          <div class="victim-body" aria-hidden="true"></div>
+          <div class="blood-pool" aria-hidden="true"></div>
+
+          <!-- ── Evidence Hotspots ── -->
+
+          <!-- 1. Bloody Knife -->
+          <button class="evidence-item" id="ev-knife"
+                  aria-label="Bloody knife — click to examine"
+                  data-id="knife">
+            <span class="ev-icon" aria-hidden="true">🔪</span>
+            <span class="ev-label">Knife</span>
+          </button>
+
+          <!-- 2. Torn Cloth -->
+          <button class="evidence-item" id="ev-cloth"
+                  aria-label="Torn piece of cloth — click to examine"
+                  data-id="cloth">
+            <span class="ev-icon" aria-hidden="true">🧶</span>
+            <span class="ev-label">Torn Cloth</span>
+          </button>
+
+          <!-- 3. Wine Glass -->
+          <button class="evidence-item" id="ev-glass"
+                  aria-label="Wine glass with lipstick — click to examine"
+                  data-id="glass">
+            <span class="ev-icon" aria-hidden="true">🍷</span>
+            <span class="ev-label">Wine Glass</span>
+          </button>
+
+          <!-- 4. Footprint -->
+          <button class="evidence-item" id="ev-footprint"
+                  aria-label="Muddy footprint — click to examine"
+                  data-id="footprint">
+            <span class="ev-icon" aria-hidden="true">👣</span>
+            <span class="ev-label">Footprint</span>
+          </button>
+
+          <!-- 5. Crumpled Note -->
+          <button class="evidence-item" id="ev-note"
+                  aria-label="Crumpled note — click to examine"
+                  data-id="note">
+            <span class="ev-icon" aria-hidden="true">📜</span>
+            <span class="ev-label">Note</span>
+          </button>
+
+          <!-- 6. Broken Clock -->
+          <button class="evidence-item" id="ev-clock"
+                  aria-label="Broken pocket clock — click to examine"
+                  data-id="clock">
+            <span class="ev-icon" aria-hidden="true">🕛</span>
+            <span class="ev-label">Broken Clock</span>
+          </button>
+
+        </div><!-- /room -->
+      </div><!-- /panelScene -->
+
+      <!-- Panel: Evidence Board -->
+      <div id="panelEvidence" class="panel" role="region" aria-label="Evidence Board">
+        <h3 class="board-title">📋 Evidence Board</h3>
+        <p class="board-empty" id="emptyMsg">No evidence collected yet. Examine the crime scene.</p>
+        <div class="evidence-list" id="evidenceList" aria-live="polite"></div>
+      </div>
+
+      <!-- Panel: Suspects -->
+      <div id="panelSuspects" class="panel" role="region" aria-label="Suspect Profiles">
+        <div class="suspects-grid" id="suspectsGrid"></div>
+      </div>
+
+      <!-- Panel: Accusation -->
+      <div id="panelAccuse" class="panel" role="region" aria-label="Make Accusation">
+
+        <!-- Locked state (not enough evidence) -->
+        <div class="accusation-locked" id="accuseLocked">
+          <span class="lock-icon" aria-hidden="true">🔒</span>
+          <h3 class="board-title" style="border:none;">Insufficient Evidence</h3>
+          <p>You must collect at least <strong style="color:var(--gold);">4 pieces of evidence</strong>
+             before making an accusation. Return to the crime scene.</p>
+        </div>
+
+        <!-- Unlocked state -->
+        <div class="accusation-form hidden" id="accuseForm">
+          <h3>⚖ Make Your Accusation</h3>
+          <p>You have gathered enough evidence. Choose the suspect you believe is guilty
+             and press the button to make your accusation.</p>
+
+          <div class="suspect-select" id="suspectSelect" role="radiogroup"
+               aria-label="Select a suspect">
+          </div>
+
+          <button id="btnAccuse" disabled>MAKE ACCUSATION</button>
+        </div>
+
+      </div><!-- /panelAccuse -->
+    </main><!-- /game-content -->
+
+  </section><!-- /gameScreen -->
+
+  <!-- ============================================================
+       RESULT SCREEN
+       ============================================================ -->
+  <section id="resultScreen" class="screen hidden" role="main"></section>
+
+  <!-- Toast notification -->
+  <div id="toast" role="alert" aria-live="assertive"></div>
+
+  <!-- Clue popup (created dynamically, attached to body) -->
+
+  <!-- ============================================================
+       JAVASCRIPT
+       ============================================================ -->
+  <script>
+    "use strict";
+
+    /* ============================================================
+       GAME DATA
+       ============================================================ */
+
+    /** All six evidence items with id, icon, name, and clue text. */
+    const EVIDENCE_DATA = [
+      {
+        id: "knife",
+        icon: "🔪",
+        name: "Bloody Knife",
+        clue: "A silver letter-opener with Lord Blackwood's initials — and fresh blood on the blade. The grip shows no fingerprints, suggesting gloves were worn."
+      },
+      {
+        id: "cloth",
+        icon: "🧶",
+        name: "Torn Cloth",
+        clue: "A fragment of dark wool, caught on the corner of the bookshelf. The weave pattern matches a gentleman's waistcoat rather than a lady's attire."
+      },
+      {
+        id: "glass",
+        icon: "🍷",
+        name: "Wine Glass (Lipstick)",
+        clue: "A crystal wine glass with crimson lipstick on the rim. The wine inside is untouched — someone placed it here, perhaps to mislead the investigation."
+      },
+      {
+        id: "footprint",
+        icon: "👣",
+        name: "Muddy Footprint",
+        clue: "A large muddy boot print near the French door. Size 11 — consistent with a tall man. The tread pattern is distinctive: medical rubber soles."
+      },
+      {
+        id: "note",
+        icon: "📜",
+        name: "Crumpled Note",
+        clue: "A crumpled letter, partially burned. The legible portion reads: '…you will pay for what you know, Doctor, or I shall be forced to—'. Signed 'E.B.' (Edmund Blackwood)."
+      },
+      {
+        id: "clock",
+        icon: "🕛",
+        name: "Broken Pocket Clock",
+        clue: "An ornate pocket watch, smashed and stopped at 11:47 PM. The inscription on the back reads 'V.H. — To Time and Truth'. The initials match Dr. Victor Harlow."
+      }
+    ];
+
+    /** The three suspects. */
+    const SUSPECTS_DATA = [
+      {
+        id: "evelyn",
+        name: "Lady Evelyn Cross",
+        initials: "EC",
+        avatarColor: "#3d1a3d",
+        motive: "Stands to inherit the manor if Lord Blackwood dies without a direct heir.",
+        alibi: "Claims she was in her room reading until midnight, verified by no one.",
+        suspicious: "Was overheard arguing with Lord Blackwood about the will the previous afternoon.",
+        description: "A cold, composed woman of forty. She wears an expression of perpetual grief — or is it satisfaction?"
+      },
+      {
+        id: "victor",
+        name: "Dr. Victor Harlow",
+        initials: "VH",
+        avatarColor: "#1a1a3d",
+        motive: "Lord Blackwood discovered he had been blackmailing patients and threatened exposure.",
+        alibi: "Says he was in the library until late, but no one saw him after 11:30 PM.",
+        suspicious: "His monogrammed pocket watch was found at the scene — stopped at the time of death.",
+        description: "A physician of some renown, meticulous and precise. His hands are steady, his eyes cold as a winter autopsy table."
+      },
+      {
+        id: "thomas",
+        name: "Mr. Thomas Briggs",
+        initials: "TB",
+        avatarColor: "#1a3d1a",
+        motive: "Lord Blackwood ruined his father's business ten years ago. A vendetta long nursed.",
+        alibi: "Claims he was walking in the garden until midnight, but the rain that night makes this unlikely.",
+        suspicious: "Arrived at the manor uninvited, claiming to be an old family friend.",
+        description: "A broad-shouldered man of working stock, with calloused hands and a barely suppressed fury behind his smile."
+      }
+    ];
+
+    /** The correct culprit's id. */
+    const CULPRIT_ID = "victor";
+
+    /** Minimum evidence before accusing. */
+    const MIN_EVIDENCE = 4;
+
+    /* ============================================================
+       GAME STATE
+       ============================================================ */
+    const state = {
+      collectedEvidence: new Set(), // ids of collected evidence
+      phase: "title"                // "title" | "game" | "result"
+    };
+
+    /* ============================================================
+       DOM REFERENCES
+       ============================================================ */
+    const titleScreen   = document.getElementById("titleScreen");
+    const gameScreen    = document.getElementById("gameScreen");
+    const resultScreen  = document.getElementById("resultScreen");
+    const btnStart      = document.getElementById("btnStart");
+    const btnRestart    = document.getElementById("btnRestartGame");
+    const progressBar   = document.getElementById("progressBar");
+    const progressCount = document.getElementById("progressCount");
+    const evidenceList  = document.getElementById("evidenceList");
+    const emptyMsg      = document.getElementById("emptyMsg");
+    const suspectsGrid  = document.getElementById("suspectsGrid");
+    const accuseLocked  = document.getElementById("accuseLocked");
+    const accuseForm    = document.getElementById("accuseForm");
+    const suspectSelect = document.getElementById("suspectSelect");
+    const btnAccuse     = document.getElementById("btnAccuse");
+    const toast         = document.getElementById("toast");
+
+    /* ============================================================
+       UTILITY FUNCTIONS
+       ============================================================ */
+
+    /** Show/hide screens */
+    function showScreen(id) {
+      [titleScreen, gameScreen, resultScreen].forEach(s => s.classList.add("hidden"));
+      document.getElementById(id).classList.remove("hidden");
+    }
+
+    /** Display a brief toast notification */
+    let toastTimer = null;
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.classList.add("show");
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove("show"), 2800);
+    }
+
+    /** Switch active tab panel */
+    function switchTab(tabId) {
+      // Update buttons
+      document.querySelectorAll(".tab-btn").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.tab === tabId);
+      });
+      // Update panels
+      document.querySelectorAll(".panel").forEach(panel => {
+        panel.classList.toggle("active", panel.id === "panel" + capitalize(tabId));
+      });
+    }
+
+    function capitalize(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    /* ============================================================
+       SUSPECTS PANEL — BUILD ONCE
+       ============================================================ */
+    function buildSuspectsPanel() {
+      suspectsGrid.innerHTML = "";
+      SUSPECTS_DATA.forEach(suspect => {
+        const card = document.createElement("div");
+        card.className = "suspect-card";
+        card.setAttribute("aria-label", "Suspect: " + suspect.name);
+        card.innerHTML = `
+          <div class="suspect-avatar" style="background:${suspect.avatarColor}20;">
+            <div class="suspect-avatar-bg" style="background:radial-gradient(circle,${suspect.avatarColor} 0%,transparent 70%);"></div>
+            <span class="suspect-initials">${suspect.initials}</span>
+          </div>
+          <div class="suspect-info">
+            <h3 class="suspect-name">${suspect.name}</h3>
+            <p class="suspect-detail">🎯 <strong>Motive:</strong> <span>${suspect.motive}</span></p>
+            <p class="suspect-detail">🛡 <strong>Alibi:</strong> <span>${suspect.alibi}</span></p>
+            <div class="suspect-suspicious">💬 "${suspect.suspicious}"</div>
+          </div>
+        `;
+        suspectsGrid.appendChild(card);
+      });
+    }
+
+    /* ============================================================
+       ACCUSATION PANEL — BUILD RADIO BUTTONS
+       ============================================================ */
+    function buildAccusationPanel() {
+      suspectSelect.innerHTML = "";
+      SUSPECTS_DATA.forEach(suspect => {
+        const label = document.createElement("label");
+        label.className = "suspect-radio-label";
+        label.innerHTML = `
+          <input type="radio" name="suspect" value="${suspect.id}" />
+          ${suspect.name}
+        `;
+        suspectSelect.appendChild(label);
+      });
+
+      // Enable accuse button only when a radio is selected
+      suspectSelect.addEventListener("change", () => {
+        btnAccuse.disabled = false;
+      });
+    }
+
+    /* ============================================================
+       EVIDENCE COLLECTION
+       ============================================================ */
+
+    /** Show a floating clue popup near the clicked element */
+    function showCluePopup(evData, anchorEl) {
+      // Remove existing popup
+      const existing = document.getElementById("cluePopup");
+      if (existing) existing.remove();
+
+      const popup = document.createElement("div");
+      popup.className = "clue-popup";
+      popup.id = "cluePopup";
+      popup.innerHTML = `<h4>${evData.icon} ${evData.name}</h4><p>${evData.clue}</p>`;
+      document.body.appendChild(popup);
+
+      // Position near the anchor element (with viewport clamping)
+      const rect = anchorEl.getBoundingClientRect();
+      const pw = popup.offsetWidth || 280;
+      const ph = popup.offsetHeight || 100;
+
+      let top  = rect.bottom + 10 + window.scrollY;
+      let left = rect.left + window.scrollX;
+
+      // Clamp to viewport
+      if (left + pw > window.innerWidth - 10) left = window.innerWidth - pw - 10;
+      if (left < 10) left = 10;
+      if (top + ph > window.innerHeight + window.scrollY - 10) {
+        top = rect.top + window.scrollY - ph - 10;
+      }
+
+      popup.style.top  = top  + "px";
+      popup.style.left = left + "px";
+
+      // Auto-dismiss after 4 seconds
+      setTimeout(() => popup.remove(), 4000);
+    }
+
+    /** Add evidence card to the Evidence Board */
+    function addToEvidenceBoard(evData) {
+      emptyMsg.classList.add("hidden");
+
+      const card = document.createElement("div");
+      card.className = "evidence-card";
+      card.innerHTML = `
+        <span class="evidence-card-icon" aria-hidden="true">${evData.icon}</span>
+        <div class="evidence-card-info">
+          <h4>${evData.name}</h4>
+          <p>${evData.clue}</p>
+        </div>
+      `;
+      evidenceList.appendChild(card);
+    }
+
+    /** Update the progress bar and counter */
+    function updateProgress() {
+      const count = state.collectedEvidence.size;
+      const pct   = (count / EVIDENCE_DATA.length) * 100;
+      progressBar.style.width  = pct + "%";
+      progressCount.textContent = count + " / " + EVIDENCE_DATA.length;
+
+      // Update accusation panel visibility
+      if (count >= MIN_EVIDENCE) {
+        accuseLocked.classList.add("hidden");
+        accuseForm.classList.remove("hidden");
+      }
+    }
+
+    /** Handle click on an evidence item */
+    function onEvidenceClick(evId, buttonEl) {
+      const evData = EVIDENCE_DATA.find(e => e.id === evId);
+      if (!evData) return;
+
+      // Show popup regardless (always informative)
+      showCluePopup(evData, buttonEl);
+
+      // Collect only once
+      if (state.collectedEvidence.has(evId)) {
+        showToast("Evidence already catalogued.");
+        return;
+      }
+
+      state.collectedEvidence.add(evId);
+      buttonEl.classList.add("collected");
+      buttonEl.setAttribute("aria-pressed", "true");
+
+      addToEvidenceBoard(evData);
+      updateProgress();
+      showToast("Evidence collected: " + evData.name);
+    }
+
+    /* ============================================================
+       RESULT SCREENS
+       ============================================================ */
+    function showWinScreen() {
+      const culprit = SUSPECTS_DATA.find(s => s.id === CULPRIT_ID);
+      resultScreen.innerHTML = `
+        <div class="result-box win">
+          <div class="result-icon">🏆</div>
+          <h2>Case Solved!</h2>
+          <p>Your deduction was correct. The murderer is:</p>
+          <p style="font-family:var(--font-head);font-size:1.3rem;color:var(--gold-light);margin:0.5rem 0;">
+            ${culprit.name}
+          </p>
+          <div class="story-reveal">
+            <strong>The Full Story:</strong><br><br>
+            Dr. Victor Harlow had been blackmailing his wealthy patients for years, using sensitive
+            medical secrets as leverage. Lord Edmund Blackwood, however, had turned the tables —
+            he'd gathered enough evidence to expose the doctor's crimes and had written as much in
+            the note found at the scene.<br><br>
+            That evening, Harlow confronted the Lord in his study under the pretence of a late
+            medical consultation. When Blackwood refused to back down, Harlow seized the ornate
+            letter-opener from the desk. In the struggle, his pocket watch was smashed and fell
+            to the floor — stopping forever at 11:47 PM.<br><br>
+            The torn cloth caught on the bookshelf came from Harlow's wool waistcoat. The muddy
+            boot prints, size 11, matched his medical-issue footwear. The wine glass with lipstick
+            was a deliberate plant — Harlow placed it to cast suspicion on Lady Evelyn.<br><br>
+            Confronted with the pocket watch bearing his own initials, Dr. Victor Harlow had
+            nowhere left to hide.
+          </div>
+          <div class="result-actions">
+            <button class="btn-primary" onclick="restartGame()">Play Again</button>
+          </div>
+        </div>
+      `;
+      showScreen("resultScreen");
+    }
+
+    function showLoseScreen(accusedId) {
+      const accused = SUSPECTS_DATA.find(s => s.id === accusedId);
+      const culprit = SUSPECTS_DATA.find(s => s.id === CULPRIT_ID);
+      resultScreen.innerHTML = `
+        <div class="result-box lose">
+          <div class="result-icon">🕵️</div>
+          <h2>Wrong Accusation!</h2>
+          <p>${accused.name} looks you in the eye and shakes their head slowly.</p>
+          <p style="margin-top:0.5rem;color:var(--text-dim);font-style:italic;">
+            "I am innocent, Detective. You've accused the wrong person — and the true killer
+            is still among us."
+          </p>
+          <p style="margin-top:1.2rem;color:var(--text-dim);">
+            Review the evidence more carefully. The answer lies in the details.
+          </p>
+          <div class="result-actions">
+            <button class="btn-secondary" onclick="returnToGame()">↩ Continue Investigating</button>
+            <button class="btn-primary" onclick="restartGame()">↺ Start Over</button>
+          </div>
+        </div>
+      `;
+      showScreen("resultScreen");
+    }
+
+    /* ============================================================
+       GAME FLOW
+       ============================================================ */
+
+    /** Initialise (or reset) the game state and UI */
+    function initGame() {
+      // Reset state
+      state.collectedEvidence.clear();
+      state.phase = "game";
+
+      // Reset progress
+      progressBar.style.width = "0%";
+      progressCount.textContent = "0 / " + EVIDENCE_DATA.length;
+
+      // Reset evidence board
+      evidenceList.innerHTML = "";
+      emptyMsg.classList.remove("hidden");
+
+      // Reset room hotspots
+      document.querySelectorAll(".evidence-item").forEach(btn => {
+        btn.classList.remove("collected");
+        btn.removeAttribute("aria-pressed");
+      });
+
+      // Reset accusation panel
+      accuseLocked.classList.remove("hidden");
+      accuseForm.classList.add("hidden");
+      if (suspectSelect) {
+        const radios = suspectSelect.querySelectorAll("input[type='radio']");
+        radios.forEach(r => r.checked = false);
+      }
+      btnAccuse.disabled = true;
+
+      // Remove stale popup
+      const existing = document.getElementById("cluePopup");
+      if (existing) existing.remove();
+
+      // Switch to scene tab
+      switchTab("scene");
+      showScreen("gameScreen");
+    }
+
+    /** Called from result screen buttons */
+    function restartGame() {
+      initGame();
+    }
+
+    function returnToGame() {
+      showScreen("gameScreen");
+    }
+
+    /* ============================================================
+       EVENT LISTENERS
+       ============================================================ */
+
+    // Title → Start
+    btnStart.addEventListener("click", () => {
+      buildSuspectsPanel();
+      buildAccusationPanel();
+      initGame();
+    });
+
+    // Header restart button
+    btnRestart.addEventListener("click", initGame);
+
+    // Tab navigation
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+      btn.addEventListener("click", () => switchTab(btn.dataset.tab));
+    });
+
+    // Evidence item clicks (event delegation on the room)
+    document.getElementById("crimeScene").addEventListener("click", e => {
+      const item = e.target.closest(".evidence-item");
+      if (!item) return;
+      onEvidenceClick(item.dataset.id, item);
+    });
+
+    // Close popup when clicking outside
+    document.addEventListener("click", e => {
+      if (!e.target.closest(".evidence-item") && !e.target.closest(".clue-popup")) {
+        const popup = document.getElementById("cluePopup");
+        if (popup) popup.remove();
+      }
+    });
+
+    // Accuse button
+    btnAccuse.addEventListener("click", () => {
+      const selected = suspectSelect.querySelector("input[type='radio']:checked");
+      if (!selected) {
+        showToast("Please select a suspect first.");
+        return;
+      }
+      const accusedId = selected.value;
+      if (accusedId === CULPRIT_ID) {
+        showWinScreen();
+      } else {
+        showLoseScreen(accusedId);
+      }
+    });
+
+  </script>
+</body>
+</html>
