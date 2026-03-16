@@ -1,0 +1,126 @@
+<!-- TEST123 -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Maze Editor</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            font-family: sans-serif;
+        }
+
+        #toolbar {
+            width: 180px;
+            background: #f0f0f0;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            border-right: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        #toolbar h3 {
+            margin: 0 0 6px 0;
+            font-size: 16px;
+        }
+
+        #toolbar button {
+            padding: 8px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        #toolbar button.active-tool {
+            background: #0078d7;
+            color: white;
+        }
+
+        #canvasWrapper {
+            flex-grow: 1;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        canvas {
+            background: #ffffff;
+            display: block;
+        }
+
+        #zoomPanel {
+            width: 80px;
+            background: #f0f0f0;
+            padding: 10px;
+            box-sizing: border-box;
+            border-left: 1px solid #ccc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #zoomPanel h3 {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        #zoomSlider {
+            writing-mode: bt-lr;
+            -webkit-appearance: slider-vertical;
+            width: 20px;
+            height: 200px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div id="toolbar">
+    <h3>Tools</h3>
+    <button data-tool="walls">Walls</button>
+    <button data-tool="rooms">Rooms</button>
+    <button data-tool="doors">Doors</button>
+    <button data-tool="select">Select</button>
+    <button data-tool="erase">Erase</button>
+
+    <h3>View</h3>
+    <button id="gridBtn">Toggle Grid</button>
+    <button id="snapBtn">Toggle Snap</button>
+    <button id="resetViewBtn">Reset View</button>
+    <button id="clearAllBtn">Clear All</button>
+
+    <h3>History</h3>
+    <button id="undoBtn">Undo</button>
+    <button id="redoBtn">Redo</button>
+    <button id="loadBtn">Load</button>
+    <button id="saveBtn">Save</button>
+</div>
+
+<div id="canvasWrapper">
+    <canvas id="mazeCanvas" width="1200" height="800"></canvas>
+</div>
+
+<div id="zoomPanel">
+    <h3>Zoom</h3>
+    <button id="zoomOutBtn">–</button>
+    <input type="range" id="zoomSlider" min="50" max="200" value="100">
+    <button id="zoomInBtn">+</button>
+</div
+</div>
+<div id="roomNamePanel">
+    <h3>Room Name</h3>
+    <input id="roomNameInput" placeholder="Enter name">
+    <button onclick="applyRoomName()">Set Name</button>
+</div>
+}
+
+<script src="maze.js"></script>
+
+</body>
+</html>
