@@ -1,0 +1,6 @@
+function spawnClues(clues) {
+  for (const c of clues) {
+    console.log("Spawn clue:", c.id, "at tag:", c.spawnTag);
+    // Later you will map spawnTag -> actual positions/rooms in your map
+  }
+}
