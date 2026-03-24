@@ -1,127 +1,36 @@
-<!-- TEST123 -->
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Maze Editor</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        body {
-            margin: 0;
-            display: flex;
-            height: 100vh;
-            font-family: sans-serif;
-        }
-        #toolbar {
-            width: 180px;
-            background: #f0f0f0;
-            padding: 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            border-right: 1px solid #ccc;
-            box-sizing: border-box;
-        }
-        #canvasWrapper {
-            flex-grow: 1;
-            background: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            position: relative;
-        }
-        canvas {
-            background: #ffffff;
-            display: block;
-            border: 1px solid #ccc;
-        }
-        #zoomPanel {
-            width: 80px;
-            background: #f0f0f0;
-            padding: 10px;
-            box-sizing: border-box;
-            border-left: 1px solid #ccc;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-        /* Portrait fix for iPhone: vertical layout & vertical canvas */
-        @media only screen 
-          and (max-width: 900px)
-          and (orientation: portrait) {
-            body.vertical-layout {
-                flex-direction: column;
-            }
-            #toolbar, #zoomPanel, #roomNamePanel {
-                width: 100vw;
-            }
-            #toolbar {
-                border-right: none;
-                border-bottom: 1px solid #ccc;
-                flex-direction: row;
-            }
-            #canvasWrapper {
-                height: calc(100vh - 240px);
-            }
-            #zoomPanel {
-                border-left: none;
-                border-top: 1px solid #ccc;
-                flex-direction: row;
-                justify-content: center;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <title>Debug Loader</title>
+  <style>
+    body { background:#111; color:#0f0; font-family: monospace; padding:20px; }
+  </style>
 </head>
 <body>
-<div id="toolbar">
-    <button data-tool="walls">Walls</button>
-    <button data-tool="rooms">Rooms</button>
-    <button data-tool="doors">Doors</button>
-    <button data-tool="select">Select</button>
-    <button data-tool="erase">Erase</button>
-    <button id="gridBtn">Toggle Grid</button>
-    <button id="snapBtn">Toggle Snap</button>
-    <button id="resetViewBtn">Reset View</button>
-    <button id="clearAllBtn">Clear All</button>
-    <button id="undoBtn">Undo</button>
-    <button id="redoBtn">Redo</button>
-    <button id="loadBtn">Load</button>
-    <button id="saveBtn">Save</button>
-</div>
-<div id="canvasWrapper">
-    <canvas id="mazeCanvas" width="1200" height="800"></canvas>
-</div>
-<div id="zoomPanel">
-    <button id="zoomOutBtn">–</button>
-    <input type="range" id="zoomSlider" min="50" max="200" value="100">
-    <button id="zoomInBtn">+</button>
-</div>
-<div id="roomNamePanel">
-    <input id="roomNameInput" placeholder="Enter name">
-    <button onclick="alert('Room name set!')">Set Name</button>
-</div>
-<script>
-function isIPhone() {
-    return /iPhone/.test(navigator.userAgent);
-}
-function isPortrait() {
-    return window.innerHeight > window.innerWidth;
-}
-function setMazeCanvasOrientation() {
-    const canvas = document.getElementById('mazeCanvas');
-    if (isIPhone() && isPortrait()) {
-        canvas.width = 800;
-        canvas.height = 1200;
-        document.body.classList.add('vertical-layout');
-    } else {
-        canvas.width = 1200;
-        canvas.height = 800;
-        document.body.classList.remove('vertical-layout');
-    }
-}
-window.addEventListener('load', setMazeCanvasOrientation);
-window.addEventListener('resize', setMazeCanvasOrientation);
+
+<div id="status">Page loaded</div>
+
+<script type="module">
+  import { loadCase } from "./game/loadCase.js";
+
+  const status = document.getElementById("status");
+
+  status.innerText = "Script started";
+
+  async function startGame() {
+    status.innerText = "Calling loadCase()…";
+
+    const caseData = await loadCase();
+
+    status.innerText =
+      "✅ CASE LOADED\n" +
+      "Victim: " + caseData.victimId + "\n" +
+      "Culprit: " + caseData.culpritId;
+  }
+
+  startGame();
 </script>
+
 </body>
 </html>
