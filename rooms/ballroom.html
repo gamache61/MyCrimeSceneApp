@@ -1,1 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Ballroom Test</title>
+<style>
+  body { margin:0; background:#111; color:white; font-family:Arial; padding:20px; }
+  canvas { display:block; }
+</style>
+</head>
+<body>
+<h1>Ballroom Test Page</h1>
+<p>If you see this text and a black/gray background, the file loaded.</p>
+<p>Press F12 and tell me if you see any red errors.</p>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script>
+// Super simple test scene
+let scene = new THREE.Scene();
+scene.background = new THREE.Color(0x1a1a2e);
+
+let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 3000);
+camera.position.set(0, 100, 300);
+
+let renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+// Simple floor
+const floor = new THREE.Mesh(
+  new THREE.PlaneGeometry(1000, 1000),
+  new THREE.MeshLambertMaterial({ color: 0x3c2f25 })
+);
+floor.rotation.x = -Math.PI / 2;
+scene.add(floor);
+
+scene.add(new THREE.AmbientLight(0xffffff, 1));
+
+function animate() {
+  requestAnimationFrame(animate);
+  renderer.render(scene, camera);
+}
+animate();
+
+console.log("✅ Simple test scene started successfully");
+</script>
+</body>
+</html>
