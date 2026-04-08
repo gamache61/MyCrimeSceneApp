@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>The Grand Crowsnest Castle Murder</title>
+<style>
+  body {
+    margin: 0;
+    background: #000;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+    color: #ddd;
+  }
+  #introScreen {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(rgba(0,0,0,0.96), rgba(15,0,5,0.96));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: auto;
+  }
+  #introContent {
+    max-width: 720px;
+    padding: 30px 40px;
+    max-height: 90vh;
+  }
+  h1 {
+    font-size: 3.2em;
+    margin: 0 0 12px 0;
+    color: #b33;
+    text-shadow: 0 0 20px #700, 0 4px 10px #000;
+    letter-spacing: 5px;
+  }
+  .subtitle {
+    font-size: 1.4em;
+    margin: 8px 0 35px 0;
+    color: #999;
+    font-style: italic;
+  }
+  .story {
+    font-size: 1.15em;
+    line-height: 1.7;
+    margin: 25px 0;
+    text-align: left;
+    background: rgba(25,0,5,0.75);
+    padding: 28px;
+    border-left: 8px solid #b33;
+    border-radius: 4px;
+  }
+  button#startBtn {
+    margin-top: 35px;
+    padding: 15px 55px;
+    font-size: 1.3em;
+    background: #b33;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 0 25px #700;
+    transition: all 0.4s;
+  }
+  button#startBtn:hover {
+    background: #d44;
+    transform: scale(1.08);
+    box-shadow: 0 0 35px #900;
+  }
+</style>
+</head>
+<body>
+
+<div id="introScreen">
+  <div id="introContent">
+    <h1>THE GRAND CROWSNEST CASTLE MURDER</h1>
+    <div class="subtitle">A Murder Mystery Investigation</div>
+    
+    <div class="story">
+      <p>It is the night of the Winter Solstice Ball at the ancient Crowsnest Castle. The grand ballroom is filled with the sound of dancing and conversation.</p>
+      <p>At precisely 11:47 PM, the lights suddenly go out. A single, piercing scream cuts through the darkness.</p>
+      <p>By the time the authorities arrive, the body has already been removed and the crime scene processed. All that remains are the official photographs taken at the scene.</p>
+      <p>The heavy oak doors were locked from the inside. No one entered or left the room.</p>
+      <p><strong>You are Detective Jim Smart</strong>, known to many as "Bull", the tough and relentless investigator assigned to the case. The killer is still somewhere within the castle walls.</p>
+      <p>Your task: Study the crime scene photographs carefully. Examine every clue in the rooms of Crowsnest Castle. Piece together what really happened before the trail goes cold.</p>
+      <p><strong>The crime scene was in the ballroom.</strong></p>
+    </div>
+
+    <button id="startBtn">BEGIN INVESTIGATION</button>
+  </div>
+</div>
+
+<script>
+  document.getElementById("startBtn").addEventListener("click", () => {
+    window.location.href = "index.html";
+  });
+</script>
+
+</body>
+</html>
